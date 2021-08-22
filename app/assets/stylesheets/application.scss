@@ -75,12 +75,41 @@ a {
 
 .header {
   height: $header-height;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  .header-text {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 0px;
+    color: #000E4E;
+    text-transform: uppercase;
+    opacity: 1;
+  }
+}
+
+.header-brand-img {
+  height: 3.5rem !important;
+}
+
+.main_header {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  .header-brand-img, .header-text {
+    display: none;
+  }
 }
 
 .wrapper {
   position: relative;
   height: auto;
   min-height: calc(100% - #{$header-height} - #{$footer-height});
+}
+
+.wrapper-margin {
+  margin-top: $header-height;
 }
 
 .footer {
@@ -90,6 +119,23 @@ a {
 
 .background {
   background-color: $background-color;
+}
+
+.background_main {
+  background-image: image-url('background_main.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .logo_afadi {
+    height: 140px;
+    width: 150px;
+    margin: 3.5rem;
+  }
 }
 
 .error-section {
@@ -102,6 +148,8 @@ a {
 
 .subtitle {
   font-size: 25px;
+  color: #000E4E;
+  font-weight: bold;
 }
 
 .force-bottom {
@@ -145,6 +193,10 @@ input:focus {
     border-color: $primary !important;
 }
 
+.input-group button:focus {
+    box-shadow: none !important;
+}
+
 .list-group-item-action.active {
   color: $primary;
 }
@@ -178,4 +230,68 @@ table {
 
 #delete-confirm:disabled {
   cursor: not-allowed;
+}
+
+.btn i {
+  transition: all .15s;
+}
+
+.nav-icon i {
+  width: 35px;
+}
+
+.form_title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000E4E;
+  text-transform: uppercase;
+}
+
+.my-input {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #999999;
+  border-radius: 5px;
+  height: 50px;
+  max-width: 300px;
+}
+
+.btn-my-primary, .start-button {
+  background-color: #B78B35;
+  opacity: 1;
+  height: 60px;
+  width: 300px;
+  color: #fff;
+  border: none;
+  &:hover {
+    background-color: #316cbe !important;
+    border-color: #316cbe !important;
+    color: white !important;
+  }
+}
+
+.btn-my-primary {
+  border-radius: 5px;
+}
+
+.label-text {
+  font-size: 18px;
+  letter-spacing: 0px;
+  color: #333333;
+}
+
+.form-signup, .form-signin {
+  margin-top: 3rem;
+  .form-group {
+    display: flex;
+  }
+}
+
+#room-title {
+  h1 {
+    color: #fff;
+  }
+}
+
+.text-invite {
+  color: #B78B35;
 }

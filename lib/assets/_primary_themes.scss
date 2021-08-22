@@ -47,12 +47,23 @@ a {
   }
 }
 
-.btn-outline-primary {
-  border-color: $primary-color !important;
-  color: $primary-color !important;
+.sign-in-button {
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  color: #000E4E !important;
+}
 
+.sign-up-button{
+  background: #1E5CD1 0% 0% no-repeat padding-box;
+  border-radius: 5px;
+  opacity: 1;
+  color: #fff !important;
+}
+
+.sign-in-button, .sign-up-button {
   &:hover {
-    background: $primary-color !important;
+    background: rgb(212, 178, 108) !important;
     color: white !important;
   }
 
@@ -77,6 +88,20 @@ a {
 
   & .header-nav.active {
     color: $primary-color !important;
+  }
+}
+
+.nav-tabs .nav-link{ 
+  &.active {
+    border-color: $primary-color !important;
+  }
+
+  &:not(.active){
+    color: #9aa0ac !important;
+    &:hover:not(.disabled) {
+      border-color: $primary-color;
+      color: $primary-color !important;
+    }
   }
 }
 
@@ -145,6 +170,7 @@ input:focus, select:focus {
     & a {
       color: $primary-color !important;
       border-color: $primary-color !important;
+      white-space: nowrap;
     }
 
     & a:hover {
@@ -195,8 +221,16 @@ input:focus, select:focus {
   }
 }
 
-.room-block {
-  &.current {
-    box-shadow: 0 0 10px $primary-color-lighten;
+.room-block, #create-room-block {
+    // box-shadow: 0 0 10px $primary-color-lighten;
+    border: 1px solid #999999;
+    border-radius: 60px;
+    background: none;
+}
+
+.btn-secondary {
+  color: $primary-color;
+  & i {
+    color: $primary-color;
   }
 }

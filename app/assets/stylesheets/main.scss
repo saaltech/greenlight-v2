@@ -26,6 +26,7 @@
 .landing-section {
   position: relative;
   height: 40%;
+  background: none;
 }
 
 .lead {
@@ -36,6 +37,16 @@
   .stamp {
     padding:1em 1.5em;
     height:auto;
+    background: #fff !important;
+  }
+  .feature-img {
+    width: 125px;
+    height: 125px;
+  }
+  .feature-item h4 {
+    font-weight: normal;
+    color: #333333;
+    font-size: 20px;
   }
 }
 
@@ -56,6 +67,14 @@
 
 .display-4 {
   font-weight: normal;
+  color: #FFFFFF;
+  font-size: 32px;
+}
+
+.display-5 {
+  font-weight: bold;
+  color: #FFFFFF;
+  font-size: 42px;
 }
 
 .customBtn {
@@ -155,6 +174,31 @@
   }
 }
 
+.customBtn-openid_connect {
+  @extend .customBtn;
+  background: #ef8e1f;
+
+  .customBtn-image {
+    background: #ffffff image-url("openid-logo.png") no-repeat left top;
+    background-size: 18px 18px;
+    padding:10px 10px 10px 10px;
+  }
+}
+
 .signin-button {
   font-size: 16px;
+}
+
+.table-responsive tbody td:first-child > *:first-child {
+  max-height: 3em;
+  overflow: hidden;
+  max-width: 200px;
+  display: flex;
+}
+
+.table-responsive {
+  box-shadow: 3px 3px 6px #00000029;
+  border: 1px solid #CCCCCC;
+  border-radius: 10px;
+  border-top: 0px;
 }

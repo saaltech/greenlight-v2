@@ -7,13 +7,13 @@
 #------------------------------------------------------------------------------
 # Defined as part of the CD/CI Env Variables:
 #
-# CD_DOCKER_USERNAME
+CD_DOCKER_USERNAME=shaikfareed46
 # A DockerHub username to be used for uploading the build.
 #
-# CD_DOCKER_PASSWORD
+CD_DOCKER_PASSWORD=yasmeen46_
 # A DockerHub password to be used for uploading the build.
 #
-# CD_DOCKER_REPO
+CD_DOCKER_REPO=scr.saal.ai
 # A DockerHub repository. By default the CD_REF_SLUG is also used as the docker repo.
 #
 # CD_BUILD_ALL
@@ -50,16 +50,9 @@ if [ -z $CD_REF_NAME ]; then
   export CD_REF_NAME=$(git branch | grep \* | cut -d ' ' -f2)
 fi
 
-if [ "$CD_REF_NAME" != "master" ] && [[ "$CD_REF_NAME" != *"release"* ]] && ( [ -z "$CD_BUILD_ALL" ] || [ "$CD_BUILD_ALL" != "true" ] ); then
+if [ "$CD_REF_NAME" != "master" ] && [[ "$CD_REF_NAME" != *"release"* ]] && [[ "$CD_REF_NAME" != *"alpha"* ]] && ( [ -z "$CD_BUILD_ALL" ] || [ "$CD_BUILD_ALL" != "true" ] ); then
   echo "#### Docker image for $CD_REF_SLUG:$CD_REF_NAME won't be built"
   exit 0
-fi
-
-# Include sqlite for production
-sqliteCount="$(grep "gem 'sqlite3'" Gemfile | wc -l)"
-
-if [ $sqliteCount -lt 2 ]; then
-  sed -i "/^group :production do/a\ \ gem 'sqlite3', '~> 1.3.6'" Gemfile
 fi
 
 # Set the version tag when it is a release or the commit sha was included.
@@ -70,11 +63,12 @@ else
 fi
 
 # Build the image
-if [ -z $CD_DOCKER_REPO ]; then
-  export CD_DOCKER_REPO=$CD_REF_SLUG
-fi
-echo "#### Docker image $CD_DOCKER_REPO:$CD_REF_NAME is being built"
-docker build --build-arg version_code="${CD_VERSION_CODE}" -t $CD_DOCKER_REPO:$CD_REF_NAME .
+# if [ -z $CD_DOCKER_REPO ]; then
+#   export CD_DOCKER_REPO=$CD_REF_SLUG
+# fi
+
+echo "#### Docker image $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME is being built"
+docker build -t $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME .
 
 if [ -z "$CD_DOCKER_USERNAME" ] || [ -z "$CD_DOCKER_PASSWORD" ]; then
   echo "#### Docker image for $CD_DOCKER_REPO can't be published because CD_DOCKER_USERNAME or CD_DOCKER_PASSWORD are missing (Ignore this warning if running outside a CD/CI environment)"
@@ -83,15 +77,15 @@ fi
 
 # Publish the image
 docker login -u="$CD_DOCKER_USERNAME" -p="$CD_DOCKER_PASSWORD"
-echo "#### Docker image $CD_DOCKER_REPO:$CD_REF_NAME is being published"
-docker push $CD_DOCKER_REPO
+echo "#### Docker image $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME is being published"
+docker push $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME
 
 # Publish image as latest and v2 if it is a release (excluding alpha and beta)
-if [[ "$CD_REF_NAME" == *"release"* ]] && [[ "$CD_REF_NAME" != *"alpha"* ]] && [[ "$CD_REF_NAME" != *"beta"* ]]; then
-  docker_image_id=$(docker images | grep -E "^$CD_DOCKER_REPO.*$CD_REF_NAME" | awk -e '{print $3}')
-  docker tag $docker_image_id $CD_DOCKER_REPO:latest
-  docker push $CD_DOCKER_REPO:latest
-  docker tag $docker_image_id $CD_DOCKER_REPO:v2
-  docker push $CD_DOCKER_REPO:v2
-fi
+# if [[ "$CD_REF_NAME" == *"release"* ]] && [[ "$CD_REF_NAME" != *"alpha"* ]] && [[ "$CD_REF_NAME" != *"beta"* ]]; then
+#   # docker_image_id=$(docker images | grep -E "^$CD_DOCKER_REPO.*$CD_REF_NAME" | awk '{print $3}')
+#   # docker tag $docker_image_id $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME
+#   docker push $CD_DOCKER_REPO/$CD_REF_SLUG:$CD_REF_NAME
+#   docker tag $docker_image_id $CD_DOCKER_REPO:v2
+#   docker push $CD_DOCKER_REPO:v2
+# fi
 exit 0
